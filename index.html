@@ -78,6 +78,170 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-agent搭建" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/03/11/agent%E6%90%AD%E5%BB%BA/" class="article-date">
+  <time class="dt-published" datetime="2026-03-11T02:52:20.000Z" itemprop="datePublished">2026-03-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2026/03/11/agent%E6%90%AD%E5%BB%BA/">agent搭建</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="DeerFlow"><a href="#DeerFlow" class="headerlink" title="DeerFlow"></a><a target="_blank" rel="noopener" href="https://github.com/alois132/deer-flow">DeerFlow</a></h1><p align="center">
+  <img src="https://img.shields.io/badge/Go-1.25+-00ADD8?style=flat-square&logo=go" alt="Go Version">
+  <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License">
+  <img src="https://img.shields.io/badge/Framework-Eino-FF6B6B?style=flat-square" alt="Framework">
+</p>
+
+<p align="center">
+  <b>DeerFlow 2.0</b> - 开源 AI Super Agent，具备持久化记忆与沙箱执行能力
+</p>
+
+<p align="center">
+  <a href="#特性">特性</a> •
+  <a href="#快速开始">快速开始</a> •
+  <a href="#架构">架构</a> •
+  <a href="#配置">配置</a> •
+  <a href="#工具">工具</a> •
+  <a href="#记忆系统">记忆系统</a>
+</p>
+
+<hr>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>DeerFlow 是一个基于 Go 语言开发的开源 AI Super Agent，采用 <a target="_blank" rel="noopener" href="https://github.com/cloudwego/eino">CloudWeGo Eino</a> 框架构建。它集成了多提供商 LLM 支持、持久化记忆系统和安全的沙箱执行环境，能够执行复杂的任务并持续学习用户偏好。</p>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><ul>
+<li><strong>多提供商 LLM 支持</strong> - 支持 OpenAI 兼容 API 和 Ark (ByteDance) 模型</li>
+<li><strong>持久化记忆系统</strong> - 基于 Redis 的智能记忆，自动提取和分类用户偏好、知识和行为模式</li>
+<li><strong>安全沙箱执行</strong> - Docker 容器化执行环境，支持自动启动和空闲超时管理</li>
+<li><strong>丰富的工具集</strong> - 内置文件操作、命令执行等工具</li>
+<li><strong>流式响应</strong> - 实时流式输出，提供流畅的交互体验</li>
+<li><strong>线程隔离</strong> - 每个对话线程拥有独立的沙箱环境</li>
+</ul>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────────┐</span><br><span class="line">│                         DeerFlow                            │</span><br><span class="line">├─────────────────────────────────────────────────────────────┤</span><br><span class="line">│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │</span><br><span class="line">│  │    Leader    │  │    Memory    │  │   Sandbox    │      │</span><br><span class="line">│  │    Agent     │  │   Service    │  │   Manager    │      │</span><br><span class="line">│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘      │</span><br><span class="line">└─────────┼─────────────────┼─────────────────┼──────────────┘</span><br><span class="line">          │                 │                 │</span><br><span class="line">    ┌─────▼─────┐    ┌─────▼─────┐    ┌─────▼─────┐</span><br><span class="line">    │   LLM     │    │  Redis    │    │  Docker   │</span><br><span class="line">    │ Providers │    │           │    │  Sandbox  │</span><br><span class="line">    └───────────┘    └───────────┘    └───────────┘</span><br></pre></td></tr></table></figure>
+
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><h3 id="环境要求"><a href="#环境要求" class="headerlink" title="环境要求"></a>环境要求</h3><ul>
+<li>Go 1.25+</li>
+<li>Docker</li>
+<li>MySQL 8.0+</li>
+<li>Redis 7.0+</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol>
+<li>克隆仓库</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/yourusername/deer-flow.git</span><br><span class="line"><span class="built_in">cd</span> deer-flow</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>启动依赖服务</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>配置环境</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> config.yaml.example config.yaml</span><br><span class="line"><span class="comment"># 编辑 config.yaml，配置你的 LLM API 密钥</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>运行应用</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go run cmd/main.go</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>配置文件 <code>config.yaml</code> 示例：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">  <span class="attr">mode:</span> <span class="string">dev</span></span><br><span class="line"></span><br><span class="line"><span class="attr">database:</span></span><br><span class="line">  <span class="attr">master:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">mysql</span></span><br><span class="line">    <span class="attr">host:</span> <span class="string">localhost</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">3306</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">password</span></span><br><span class="line">    <span class="attr">database:</span> <span class="string">deerflow</span></span><br><span class="line"></span><br><span class="line"><span class="attr">redis:</span></span><br><span class="line">  <span class="attr">host:</span> <span class="string">localhost</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">6379</span></span><br><span class="line"></span><br><span class="line"><span class="attr">agent:</span></span><br><span class="line">  <span class="attr">default_llm:</span></span><br><span class="line">    <span class="attr">provider:</span> <span class="string">openai</span></span><br><span class="line">    <span class="attr">api_key:</span> <span class="string">sk-your-api-key</span></span><br><span class="line">    <span class="attr">model:</span> <span class="string">kimi-k2.5</span></span><br><span class="line">    <span class="attr">base_url:</span> <span class="string">https://api.moonshot.cn/v1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">sandbox:</span></span><br><span class="line">  <span class="attr">auto_start:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">container_prefix:</span> <span class="string">deer-flow-</span></span><br><span class="line">  <span class="attr">idle_timeout:</span> <span class="number">3600</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>DeerFlow 内置以下工具：</p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>bash</code></td>
+<td>在沙箱中执行 bash 命令</td>
+</tr>
+<tr>
+<td><code>ls</code></td>
+<td>列出目录内容</td>
+</tr>
+<tr>
+<td><code>read_file</code></td>
+<td>读取文件内容，支持行范围</td>
+</tr>
+<tr>
+<td><code>write_file</code></td>
+<td>写入文件内容</td>
+</tr>
+<tr>
+<td><code>str_replace</code></td>
+<td>替换文件中的字符串</td>
+</tr>
+</tbody></table>
+<h2 id="记忆系统"><a href="#记忆系统" class="headerlink" title="记忆系统"></a>记忆系统</h2><p>DeerFlow 的记忆系统能够：</p>
+<ul>
+<li><strong>用户上下文</strong> - 存储用户偏好、习惯和历史交互</li>
+<li><strong>工作上下文</strong> - 记录当前任务和项目相关信息</li>
+<li><strong>个人上下文</strong> - 维护用户的个人信息和背景</li>
+<li><strong>事实提取</strong> - 自动从对话中提取并分类事实：<ul>
+<li>偏好 (Preferences)</li>
+<li>知识 (Knowledge)</li>
+<li>行为 (Behavior)</li>
+<li>目标 (Goals)</li>
+</ul>
+</li>
+</ul>
+<p>记忆使用 Redis 持久化，并在每次对话后通过 LLM 分析自动更新。</p>
+<h2 id="沙箱环境"><a href="#沙箱环境" class="headerlink" title="沙箱环境"></a>沙箱环境</h2><ul>
+<li><strong>自动启动</strong> - 按需自动创建和启动沙箱容器</li>
+<li><strong>空闲超时</strong> - 默认 10 分钟空闲后自动清理</li>
+<li><strong>线程隔离</strong> - 每个线程拥有独立的沙箱实例</li>
+<li><strong>卷挂载</strong> - 支持技能、上传文件、工作区和输出的卷挂载</li>
+</ul>
+<h2 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h2><h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">deer-flow/</span><br><span class="line">├── cmd/main.go              # 应用入口</span><br><span class="line">├── config.yaml.example      # 配置示例</span><br><span class="line">├── docker-compose.yaml      # 依赖服务</span><br><span class="line">├── internal/</span><br><span class="line">│   ├── agent/               # Agent 核心逻辑</span><br><span class="line">│   │   ├── leader.go        # Leader Agent</span><br><span class="line">│   │   ├── tools.go         # 工具定义</span><br><span class="line">│   │   └── memory/          # 记忆服务</span><br><span class="line">│   └── global/              # 全局配置和实例</span><br><span class="line">├── pkg/</span><br><span class="line">│   ├── database/            # 数据库配置</span><br><span class="line">│   ├── llm/                 # LLM 提供商集成</span><br><span class="line">│   ├── log/                 # 日志系统</span><br><span class="line">│   ├── redis/               # Redis 配置</span><br><span class="line">│   └── sandbox/             # 沙箱管理</span><br><span class="line">└── utils/                   # 工具函数</span><br></pre></td></tr></table></figure>
+
+<h3 id="依赖的主要库"><a href="#依赖的主要库" class="headerlink" title="依赖的主要库"></a>依赖的主要库</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/cloudwego/eino">Eino</a> - Go 语言 LLM 应用框架</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/agent-infra/sandbox-sdk-go">sandbox-sdk-go</a> - 沙箱环境 SDK</li>
+<li><a target="_blank" rel="noopener" href="https://gorm.io/">GORM</a> - ORM 框架</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/uber-go/zap">Zap</a> - 结构化日志</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/spf13/viper">Viper</a> - 配置管理</li>
+</ul>
+<h2 id="许可证"><a href="#许可证" class="headerlink" title="许可证"></a>许可证</h2><p>MIT License</p>
+<h2 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/bytedance/deer-flow">Deer Flow</a> - 原创项目</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/cloudwego/eino">CloudWeGo Eino</a> - 强大的 Go 语言 LLM 应用框架</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/agent-infra">Agent Infra</a> - 沙箱基础设施</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://kkb-1.github.io/2026/03/11/agent%E6%90%AD%E5%BB%BA/" data-id="cmmlg5mj2000026kd3nj13k4l" data-title="agent搭建" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/agent/" rel="tag">agent</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-减少工具-token-操作" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/12/05/%E5%87%8F%E5%B0%91%E5%B7%A5%E5%85%B7-token-%E6%93%8D%E4%BD%9C/" class="article-date">
@@ -1001,61 +1165,6 @@
 
 
   
-    <article id="post-docker-pull-断点续传" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/04/04/docker-pull-%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0/" class="article-date">
-  <time class="dt-published" datetime="2025-04-04T14:34:39.000Z" itemprop="datePublished">2025-04-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2025/04/04/docker-pull-%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0/">docker pull 断点续传</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>随着技术和业务不断迭代，镜像层不断叠加，会出现非常大的镜像，以默认的docker配置拉取的话，网络一旦波动就会前功尽弃，这其实是非常灾难性的情况</li>
-<li>docker可以通过在配置文件中添加👇的配置内容，重启docker后就可以支持断点续传</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="attr">&quot;features&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;containerd-snapshotter&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>断点续传配置生效后，docker原有的镜像将无法识别，也就是假性清空，可以把断点续传配置取消，镜像就又能识别了</li>
-</ul>
-<blockquote>
-<p>原理</p>
-</blockquote>
-<ul>
-<li>docker断点续传本质是不断对拉取的镜像层打“快照”，如果你有一次突然中断了拉取，再次进行拉取时，docker会取出快照，接着原来的进度继续拉取，所以断点续传会产生较多的冗余数据，占空间</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://kkb-1.github.io/2025/04/04/docker-pull-%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0/" data-id="cm92w4yzg00002ekd05dhgjn5" data-title="docker pull 断点续传" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1074,7 +1183,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/aigc/" rel="tag">aigc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aigc-backend/" rel="tag">aigc backend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ai%E6%8F%90%E6%95%88/" rel="tag">ai提效</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/backend/" rel="tag">backend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cicd/" rel="tag">cicd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/agent/" rel="tag">agent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aigc/" rel="tag">aigc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aigc-backend/" rel="tag">aigc backend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ai%E6%8F%90%E6%95%88/" rel="tag">ai提效</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/backend/" rel="tag">backend</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cicd/" rel="tag">cicd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
     </div>
   </div>
 
@@ -1084,7 +1193,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/aigc/" style="font-size: 15px;">aigc</a> <a href="/tags/aigc-backend/" style="font-size: 10px;">aigc backend</a> <a href="/tags/ai%E6%8F%90%E6%95%88/" style="font-size: 10px;">ai提效</a> <a href="/tags/backend/" style="font-size: 20px;">backend</a> <a href="/tags/cicd/" style="font-size: 10px;">cicd</a> <a href="/tags/docker/" style="font-size: 15px;">docker</a>
+      <a href="/tags/agent/" style="font-size: 10px;">agent</a> <a href="/tags/aigc/" style="font-size: 15px;">aigc</a> <a href="/tags/aigc-backend/" style="font-size: 10px;">aigc backend</a> <a href="/tags/ai%E6%8F%90%E6%95%88/" style="font-size: 10px;">ai提效</a> <a href="/tags/backend/" style="font-size: 20px;">backend</a> <a href="/tags/cicd/" style="font-size: 10px;">cicd</a> <a href="/tags/docker/" style="font-size: 15px;">docker</a>
     </div>
   </div>
 
@@ -1093,7 +1202,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/12/">十二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/11/">十一月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">十月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/09/">九月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/04/">四月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/09/">九月 2024</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/03/">三月 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/12/">十二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/11/">十一月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">十月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/09/">九月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/04/">四月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/09/">九月 2024</a></li></ul>
     </div>
   </div>
 
@@ -1104,6 +1213,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2026/03/11/agent%E6%90%AD%E5%BB%BA/">agent搭建</a>
+          </li>
         
           <li>
             <a href="/2025/12/05/%E5%87%8F%E5%B0%91%E5%B7%A5%E5%85%B7-token-%E6%93%8D%E4%BD%9C/">减少工具 token 操作</a>
@@ -1121,10 +1234,6 @@
             <a href="/2025/10/31/%E6%9C%AC%E5%9C%B0%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BF/">本地事件总线</a>
           </li>
         
-          <li>
-            <a href="/2025/10/27/AI-%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/">AI 上下文工程</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1138,7 +1247,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       
-      &copy; 2025 kkb<br>
+      &copy; 2026 kkb<br>
       Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

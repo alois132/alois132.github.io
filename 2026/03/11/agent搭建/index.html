@@ -6,22 +6,18 @@
   
   <title>agent搭建 | Welcome to kkb blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="DeerFlow               DeerFlow 2.0 - 开源 AI Super Agent，具备持久化记忆与沙箱执行能力      特性 •   快速开始 •   架构 •   配置 •   工具 •   记忆系统    简介DeerFlow 是一个基于 Go 语言开发的开源 AI Super Agent，采用 CloudWeGo Eino 框架构建。它集成了多提供商 LLM">
+  <meta name="description" content="项目链接（持续更新中） 借助 aio image 搭建沙盒环境和 llm 构建 memeory 系统，正在加入联网功能、子代理（subagent）、定时任务和外部im软件接入。 开发日志：  自行注入session value到ctx中，不依赖eino本身runTimeCtx，更自由。 增加llm构建memory系统。 增加基于aio镜像操作的沙盒功能。 发现openai协议下，kimi使用thi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="agent搭建">
 <meta property="og:url" content="https://kkb-1.github.io/2026/03/11/agent%E6%90%AD%E5%BB%BA/index.html">
 <meta property="og:site_name" content="Welcome to kkb blog">
-<meta property="og:description" content="DeerFlow               DeerFlow 2.0 - 开源 AI Super Agent，具备持久化记忆与沙箱执行能力      特性 •   快速开始 •   架构 •   配置 •   工具 •   记忆系统    简介DeerFlow 是一个基于 Go 语言开发的开源 AI Super Agent，采用 CloudWeGo Eino 框架构建。它集成了多提供商 LLM">
+<meta property="og:description" content="项目链接（持续更新中） 借助 aio image 搭建沙盒环境和 llm 构建 memeory 系统，正在加入联网功能、子代理（subagent）、定时任务和外部im软件接入。 开发日志：  自行注入session value到ctx中，不依赖eino本身runTimeCtx，更自由。 增加llm构建memory系统。 增加基于aio镜像操作的沙盒功能。 发现openai协议下，kimi使用thi">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img.shields.io/badge/Go-1.25+-00ADD8?style=flat-square&logo=go">
-<meta property="og:image" content="https://img.shields.io/badge/License-MIT-blue?style=flat-square">
-<meta property="og:image" content="https://img.shields.io/badge/Framework-Eino-FF6B6B?style=flat-square">
 <meta property="article:published_time" content="2026-03-11T02:52:20.000Z">
-<meta property="article:modified_time" content="2026-03-11T02:55:26.711Z">
+<meta property="article:modified_time" content="2026-03-11T06:10:30.910Z">
 <meta property="article:author" content="kkb">
 <meta property="article:tag" content="agent">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img.shields.io/badge/Go-1.25+-00ADD8?style=flat-square&logo=go">
   
     <link rel="alternate" href="/atom.xml" title="Welcome to kkb blog" type="application/atom+xml">
   
@@ -104,25 +100,15 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="DeerFlow"><a href="#DeerFlow" class="headerlink" title="DeerFlow"></a><a target="_blank" rel="noopener" href="https://github.com/alois132/deer-flow">DeerFlow</a></h1><p align="center">
-  <img src="https://img.shields.io/badge/Go-1.25+-00ADD8?style=flat-square&logo=go" alt="Go Version">
-  <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License">
-  <img src="https://img.shields.io/badge/Framework-Eino-FF6B6B?style=flat-square" alt="Framework">
-</p>
-
-<p align="center">
-  <b>DeerFlow 2.0</b> - 开源 AI Super Agent，具备持久化记忆与沙箱执行能力
-</p>
-
-<p align="center">
-  <a href="#特性">特性</a> •
-  <a href="#快速开始">快速开始</a> •
-  <a href="#架构">架构</a> •
-  <a href="#配置">配置</a> •
-  <a href="#工具">工具</a> •
-  <a href="#记忆系统">记忆系统</a>
-</p>
-
+        <p><a target="_blank" rel="noopener" href="https://github.com/alois132/deer-flow">项目链接（持续更新中）</a></p>
+<p>借助 aio image 搭建沙盒环境和 llm 构建 memeory 系统，正在加入联网功能、子代理（subagent）、定时任务和外部im软件接入。</p>
+<p>开发日志：</p>
+<ul>
+<li>自行注入session value到ctx中，不依赖eino本身runTimeCtx，更自由。</li>
+<li>增加llm构建memory系统。</li>
+<li>增加基于aio镜像操作的沙盒功能。</li>
+<li>发现openai协议下，kimi使用thinking模式必须返回reason content，自行修改eino openai包的req内容，增加reason content。</li>
+</ul>
 <hr>
 <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>DeerFlow 是一个基于 Go 语言开发的开源 AI Super Agent，采用 <a target="_blank" rel="noopener" href="https://github.com/cloudwego/eino">CloudWeGo Eino</a> 框架构建。它集成了多提供商 LLM 支持、持久化记忆系统和安全的沙箱执行环境，能够执行复杂的任务并持续学习用户偏好。</p>
 <h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><ul>
@@ -135,36 +121,28 @@
 </ul>
 <h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────────┐</span><br><span class="line">│                         DeerFlow                            │</span><br><span class="line">├─────────────────────────────────────────────────────────────┤</span><br><span class="line">│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │</span><br><span class="line">│  │    Leader    │  │    Memory    │  │   Sandbox    │      │</span><br><span class="line">│  │    Agent     │  │   Service    │  │   Manager    │      │</span><br><span class="line">│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘      │</span><br><span class="line">└─────────┼─────────────────┼─────────────────┼──────────────┘</span><br><span class="line">          │                 │                 │</span><br><span class="line">    ┌─────▼─────┐    ┌─────▼─────┐    ┌─────▼─────┐</span><br><span class="line">    │   LLM     │    │  Redis    │    │  Docker   │</span><br><span class="line">    │ Providers │    │           │    │  Sandbox  │</span><br><span class="line">    └───────────┘    └───────────┘    └───────────┘</span><br></pre></td></tr></table></figure>
 
-<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><h3 id="环境要求"><a href="#环境要求" class="headerlink" title="环境要求"></a>环境要求</h3><ul>
-<li>Go 1.25+</li>
-<li>Docker</li>
-<li>MySQL 8.0+</li>
-<li>Redis 7.0+</li>
+<h2 id="记忆系统"><a href="#记忆系统" class="headerlink" title="记忆系统"></a>记忆系统</h2><p>DeerFlow 的记忆系统并没有使用RAG，而是使用了json结构化存储，用llm精确分析用户的角度：</p>
+<ul>
+<li><strong>用户上下文</strong> - 存储用户偏好、习惯和历史交互</li>
+<li><strong>工作上下文</strong> - 记录当前任务和项目相关信息</li>
+<li><strong>个人上下文</strong> - 维护用户的个人信息和背景</li>
+<li><strong>事实提取</strong> - 自动从对话中提取并分类事实：<ul>
+<li>偏好 (Preferences)</li>
+<li>知识 (Knowledge)</li>
+<li>行为 (Behavior)</li>
+<li>目标 (Goals)</li>
 </ul>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol>
-<li>克隆仓库</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/yourusername/deer-flow.git</span><br><span class="line"><span class="built_in">cd</span> deer-flow</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>启动依赖服务</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>配置环境</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> config.yaml.example config.yaml</span><br><span class="line"><span class="comment"># 编辑 config.yaml，配置你的 LLM API 密钥</span></span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>运行应用</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go run cmd/main.go</span><br></pre></td></tr></table></figure>
-
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>配置文件 <code>config.yaml</code> 示例：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">  <span class="attr">mode:</span> <span class="string">dev</span></span><br><span class="line"></span><br><span class="line"><span class="attr">database:</span></span><br><span class="line">  <span class="attr">master:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">mysql</span></span><br><span class="line">    <span class="attr">host:</span> <span class="string">localhost</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">3306</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">password</span></span><br><span class="line">    <span class="attr">database:</span> <span class="string">deerflow</span></span><br><span class="line"></span><br><span class="line"><span class="attr">redis:</span></span><br><span class="line">  <span class="attr">host:</span> <span class="string">localhost</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">6379</span></span><br><span class="line"></span><br><span class="line"><span class="attr">agent:</span></span><br><span class="line">  <span class="attr">default_llm:</span></span><br><span class="line">    <span class="attr">provider:</span> <span class="string">openai</span></span><br><span class="line">    <span class="attr">api_key:</span> <span class="string">sk-your-api-key</span></span><br><span class="line">    <span class="attr">model:</span> <span class="string">kimi-k2.5</span></span><br><span class="line">    <span class="attr">base_url:</span> <span class="string">https://api.moonshot.cn/v1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">sandbox:</span></span><br><span class="line">  <span class="attr">auto_start:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">container_prefix:</span> <span class="string">deer-flow-</span></span><br><span class="line">  <span class="attr">idle_timeout:</span> <span class="number">3600</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>DeerFlow 内置以下工具：</p>
+</li>
+</ul>
+<p>记忆使用 Redis 持久化，并在每次对话后通过 LLM 分析自动更新。</p>
+<p>这种操作的缺点很明显：每次都要跑一次llm，对token消耗比较大。（todo：后续用mq积攒消息，等积攒够多的时候再通过llm分析更新）</p>
+<p>优点：更加明确信息提取的目标。</p>
+<h2 id="Sandbox-FileSystem"><a href="#Sandbox-FileSystem" class="headerlink" title="Sandbox&#x2F;FileSystem"></a>Sandbox&#x2F;FileSystem</h2><ul>
+<li><strong>虚拟路径</strong> - 将llm输出的假路径经过处理改为真实路径</li>
+<li><strong>资源隔离</strong> - 通过docker container隔离宿主机环境</li>
+<li><strong>线程隔离</strong> - 每个线程拥有独立的沙箱实例和文件夹路径（&#x2F;threads&#x2F;{thread_id}）</li>
+<li><strong>基于sanbox的命令行工具</strong> - 👇</li>
+</ul>
 <table>
 <thead>
 <tr>
@@ -193,26 +171,6 @@
 <td>替换文件中的字符串</td>
 </tr>
 </tbody></table>
-<h2 id="记忆系统"><a href="#记忆系统" class="headerlink" title="记忆系统"></a>记忆系统</h2><p>DeerFlow 的记忆系统能够：</p>
-<ul>
-<li><strong>用户上下文</strong> - 存储用户偏好、习惯和历史交互</li>
-<li><strong>工作上下文</strong> - 记录当前任务和项目相关信息</li>
-<li><strong>个人上下文</strong> - 维护用户的个人信息和背景</li>
-<li><strong>事实提取</strong> - 自动从对话中提取并分类事实：<ul>
-<li>偏好 (Preferences)</li>
-<li>知识 (Knowledge)</li>
-<li>行为 (Behavior)</li>
-<li>目标 (Goals)</li>
-</ul>
-</li>
-</ul>
-<p>记忆使用 Redis 持久化，并在每次对话后通过 LLM 分析自动更新。</p>
-<h2 id="沙箱环境"><a href="#沙箱环境" class="headerlink" title="沙箱环境"></a>沙箱环境</h2><ul>
-<li><strong>自动启动</strong> - 按需自动创建和启动沙箱容器</li>
-<li><strong>空闲超时</strong> - 默认 10 分钟空闲后自动清理</li>
-<li><strong>线程隔离</strong> - 每个线程拥有独立的沙箱实例</li>
-<li><strong>卷挂载</strong> - 支持技能、上传文件、工作区和输出的卷挂载</li>
-</ul>
 <h2 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h2><h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">deer-flow/</span><br><span class="line">├── cmd/main.go              # 应用入口</span><br><span class="line">├── config.yaml.example      # 配置示例</span><br><span class="line">├── docker-compose.yaml      # 依赖服务</span><br><span class="line">├── internal/</span><br><span class="line">│   ├── agent/               # Agent 核心逻辑</span><br><span class="line">│   │   ├── leader.go        # Leader Agent</span><br><span class="line">│   │   ├── tools.go         # 工具定义</span><br><span class="line">│   │   └── memory/          # 记忆服务</span><br><span class="line">│   └── global/              # 全局配置和实例</span><br><span class="line">├── pkg/</span><br><span class="line">│   ├── database/            # 数据库配置</span><br><span class="line">│   ├── llm/                 # LLM 提供商集成</span><br><span class="line">│   ├── log/                 # 日志系统</span><br><span class="line">│   ├── redis/               # Redis 配置</span><br><span class="line">│   └── sandbox/             # 沙箱管理</span><br><span class="line">└── utils/                   # 工具函数</span><br></pre></td></tr></table></figure>
 
 <h3 id="依赖的主要库"><a href="#依赖的主要库" class="headerlink" title="依赖的主要库"></a>依赖的主要库</h3><ul>
@@ -222,7 +180,6 @@
 <li><a target="_blank" rel="noopener" href="https://github.com/uber-go/zap">Zap</a> - 结构化日志</li>
 <li><a target="_blank" rel="noopener" href="https://github.com/spf13/viper">Viper</a> - 配置管理</li>
 </ul>
-<h2 id="许可证"><a href="#许可证" class="headerlink" title="许可证"></a>许可证</h2><p>MIT License</p>
 <h2 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/bytedance/deer-flow">Deer Flow</a> - 原创项目</li>
 <li><a target="_blank" rel="noopener" href="https://github.com/cloudwego/eino">CloudWeGo Eino</a> - 强大的 Go 语言 LLM 应用框架</li>
